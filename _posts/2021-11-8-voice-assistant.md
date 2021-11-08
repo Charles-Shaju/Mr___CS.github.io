@@ -39,8 +39,7 @@ Anyone as you like.
  - open up the terminal in your editor and type
   `git clone https://github.com/Charles-Shaju/Intelligent-Voice-Assistant.git`
  - inorder to run the program you need to install some python packages
-
- `pip install email  pyjokes pywhatkit.main speech_recognition  pyttsx3 neuralintents sys datetime email.message smtplib webbrowser time requests pywhatkit wolframalpha wikipedia bs4`
+  `pip install email  pyjokes pywhatkit.main speech_recognition  pyttsx3 neuralintents sys datetime email.message smtplib webbrowser time requests pywhatkit wolframalpha wikipedia bs4`
 
 ## Detailed Explaination
 

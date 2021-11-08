@@ -1,4 +1,4 @@
-I"¦‡<h1 id="intelligent-voice-assistant-using-python-and-tensorflow">Intelligent Voice Assistant using Python and Tensorflow</h1>
+I"£‡<h1 id="intelligent-voice-assistant-using-python-and-tensorflow">Intelligent Voice Assistant using Python and Tensorflow</h1>
 
 <h2 id="introduction">Introduction</h2>
 
@@ -33,11 +33,11 @@ Anyone as you like.</p>
 
 <p>###### For those who are only interested in running the program, you can download the program file from my <a href="https://github.com/Charles-Shaju/Intelligent-Voice-Assistant.git">github page</a></p>
 <ul>
-  <li>open up the terminal in your editor and type <code class="language-plaintext highlighter-rouge">git clone https://github.com/Charles-Shaju/Intelligent-Voice-Assistant.git</code></li>
-  <li>inorder to run the program you need to install some python packages</li>
+  <li>open up the terminal in your editor and type
+  -<code class="language-plaintext highlighter-rouge">git clone https://github.com/Charles-Shaju/Intelligent-Voice-Assistant.git</code></li>
+  <li>inorder to run the program you need to install some python packages
+  <code class="language-plaintext highlighter-rouge">pip install email  pyjokes pywhatkit.main speech_recognition  pyttsx3 neuralintents sys datetime email.message smtplib webbrowser time requests pywhatkit wolframalpha wikipedia bs4</code></li>
 </ul>
-
-<p><code class="language-plaintext highlighter-rouge">pip install email  pyjokes pywhatkit.main speech_recognition  pyttsx3 neuralintents sys datetime email.message smtplib webbrowser time requests pywhatkit wolframalpha wikipedia bs4</code></p>
 
 <h2 id="detailed-explaination">Detailed Explaination</h2>
 
