@@ -1,0 +1,232 @@
+I"��<h1 id="intelligent-voice-assistant-using-python-and-tensorflow">Intelligent Voice Assistant using Python and Tensorflow</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>This is a simple guide for coding a <strong>Voice Assistant in Python</strong>. The code is pure python and I this you need a basic knowledge in python. Using this assistant you can automate your daily task and interact with the system by voice. It is just like Siri and OK google.</p>
+
+<p>The prerequisite for this project are:</p>
+<ul>
+  <li>Python should be installed on your device</li>
+  <li>Tensorflow</li>
+  <li>Any code-editor</li>
+</ul>
+
+<blockquote>
+  <p>The program records the audio of the user using microphone and convert it into text.Then the text is inserted into the model and provide the required output</p>
+  <h4 id="python">Python</h4>
+  <p><a href="https://medium.com/co-learning-lounge/how-to-download-install-python-on-windows-2021-44a707994013">How to install python</a></p>
+</blockquote>
+
+<p>The latest version of python is recomended!, but the new version of python3.10 have some issues with tensorflow so, install the previous version <a href="https://www.python.org/downloads/release/python-397/">python3.9</a></p>
+
+<h4 id="tensorflow">Tensorflow</h4>
+<p><a href="https://www.tensorflow.org/install">How to install tensorflow</a></p>
+
+<h4 id="code-editors">Code-Editors</h4>
+<p><a href="https://www.jetbrains.com/pycharm/download/">Pycharm</a>(specificaly for python)
+<a href="https://code.visualstudio.com/download">Visual Studio Code</a>(recommended).For Vs code you should install  the python extension.
+etc…..
+Anyone as you like.</p>
+
+<p>###Working
+ The program will input voice command from the user and return the output.The voice input given by the user is gone through a machine learning algorithm and convert it into text. The converted text is then cross-verified with the <a href="https://github.com/Charles-Shaju/Intelligent-Voice-Assistant/blob/master/Voice-Assistant/intents.json">intents.json</a> file(will discuss soon).If the input approximately matches the intents in the JSON file, then the specific output is produced. There are two files needed for this program- one is the python file that specifices what output should be provided and second, a JSON file to recognise the input.</p>
+
+<p>###### For those who are only interested in running the program, you can download the program file from my <a href="https://github.com/Charles-Shaju/Intelligent-Voice-Assistant.git">github page</a></p>
+<ul>
+  <li>open up the terminal in your editor and type
+  <code class="language-plaintext highlighter-rouge">git clone https://github.com/Charles-Shaju/Intelligent-Voice-Assistant.git</code></li>
+  <li>inorder to run the program you need to install some python packages</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">pip install email  pyjokes pywhatkit.main speech_recognition  pyttsx3 neuralintents sys datetime email.message smtplib webbrowser time requests pywhatkit wolframalpha wikipedia bs4</code></p>
+
+<h2 id="detailed-explaination">Detailed Explaination</h2>
+
+<p>##### intent.json
+ This is a JavaScript Object Notation file that contain different intents.Each intents contain a tag, pattern and a response. The tag is used to specify the intent. The patterns are used to check whether the given user query exist in the pattern. Responses are the output given for the input if it is present in the patterns.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="nl">"intents"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"greeting"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Hey"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Hi"</span><span class="p">,</span><span class="w"> </span><span class="s2">"What's up?"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Good Day"</span><span class="p">],</span><span class="w">
+      </span><span class="nl">"responses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Hello there!"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Hello, what can I do for you?"</span><span class="p">,</span><span class="s2">"Hello sir, friday at your service"</span><span class="p">,</span><span class="s2">"I'm listening"</span><span class="p">,</span><span class="s2">"yes sir, i am listening"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+       </span><span class="nl">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"exit"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Bye"</span><span class="p">,</span><span class="w"> </span><span class="s2">"See you"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Quit"</span><span class="p">,</span><span class="s2">"Offline"</span><span class="p">,</span><span class="s2">"Exit"</span><span class="p">,</span><span class="s2">"Stop"</span><span class="p">],</span><span class="w">
+      </span><span class="nl">"responses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Thank you for spending time with me."</span><span class="p">,</span><span class="s2">"good bye sir"</span><span class="p">,</span><span class="s2">"see you ,sir"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"tag"</span><span class="p">:</span><span class="s2">"how are you"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"patterns"</span><span class="p">:[</span><span class="s2">"How are you"</span><span class="p">,</span><span class="s2">"How do you do"</span><span class="p">,</span><span class="s2">"How are you doing"</span><span class="p">],</span><span class="w">
+      </span><span class="nl">"responses"</span><span class="p">:[</span><span class="s2">"i am fine"</span><span class="p">,</span><span class="s2">"i am a virtual assistant, how can i get tired, use your brain dummy!"</span><span class="p">,</span><span class="s2">"I am better than i was, but not nearly as good as i am going to be"</span><span class="p">,</span><span class="s2">"somewhere between better and best "</span><span class="p">,</span><span class="s2">"much better now that you are here"</span><span class="p">,</span><span class="s2">"Armed and Ready"</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Lets say that if we give “how’re you” as user input, it will print any one of the responses of the “how are you” <code class="language-plaintext highlighter-rouge">tag</code>, because the algorithm looks for words closer to the strings given in <code class="language-plaintext highlighter-rouge">patterns</code>. Likewise if we say “what is up”, the program will provide the responses of “greeting” <code class="language-plaintext highlighter-rouge">tag</code> as output.</p>
+
+<p>If the response of the output is a function in the main program, then we don’t provide <code class="language-plaintext highlighter-rouge">responses</code> in <code class="language-plaintext highlighter-rouge">.json</code> file.</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"tag"</span><span class="p">:</span><span class="s2">"whatsapp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"patterns"</span><span class="p">:[</span><span class="s2">"send a whatsapp message"</span><span class="p">,</span><span class="s2">"whatsapp message"</span><span class="p">],</span><span class="w">
+      </span><span class="nl">"responses"</span><span class="p">:[</span><span class="s2">""</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="err">,</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"tag"</span><span class="p">:</span><span class="s2">"email"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"patterns"</span><span class="p">:[</span><span class="s2">"send email"</span><span class="p">,</span><span class="s2">"send mail"</span><span class="p">,</span><span class="s2">"gmail"</span><span class="p">],</span><span class="w">
+      </span><span class="nl">"responses"</span><span class="p">:[</span><span class="s2">""</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<h6 id="now-lets-dive-into-the-main-program">Now lets dive into the main program</h6>
+
+<p>First install the required python modules
+ <code class="language-plaintext highlighter-rouge">pip install email  pyjokes pywhatkit.main speech_recognition  pyttsx3 neuralintents sys datetime email.message smtplib webbrowser time requests pywhatkit wolframalpha wikipedia bs4</code></p>
+
+<p>The pyttsx3 is the python module which converts text string into audio so,  we initialise the  <code class="language-plaintext highlighter-rouge">pyttsx3</code> engine first. You can change the voice of the engine. You can also change the speed rate according to your need.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">engine</span> <span class="o">=</span> <span class="n">pyttsx3</span><span class="p">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">voices</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">getProperty</span><span class="p">(</span><span class="s">'voices'</span><span class="p">)</span>
+<span class="n">engine</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s">'voice'</span><span class="p">,</span> <span class="n">voices</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nb">id</span><span class="p">)</span><span class="c1">###changing index  to 0 if you need change the voice of the engine
+</span><span class="n">engine</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s">"rate"</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+<span class="n">user</span> <span class="o">=</span> <span class="s">""</span> <span class="c1">## Enter your name
+</span></code></pre></div></div>
+
+<p>Now we create a python function to convert text to audio</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="n">audiostring</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">audiostring</span><span class="p">)</span>
+    <span class="n">engine</span><span class="p">.</span><span class="n">say</span><span class="p">(</span><span class="n">audiostring</span><span class="p">)</span>
+    <span class="n">engine</span><span class="p">.</span><span class="n">runAndWait</span><span class="p">()</span>
+</code></pre></div></div>
+<p>The user input is recorded through the microphone and converted into text so that the machine learning algorithm can interpret the output. We use <code class="language-plaintext highlighter-rouge">google recogniser</code> to convert audio into text.
+The <code class="language-plaintext highlighter-rouge">if statement</code> is given to provide output when then <code class="language-plaintext highlighter-rouge">wh</code> questions are asked by the user. We use wolframalpha and wikipedia as the source of the answers.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">record</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">sr</span><span class="p">.</span><span class="n">Recognizer</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">sr</span><span class="p">.</span><span class="n">Microphone</span><span class="p">(</span><span class="n">device_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">as</span> <span class="n">source</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'I am listening!....'</span><span class="p">)</span>
+            <span class="n">r</span><span class="p">.</span><span class="n">adjust_for_ambient_noise</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">audio</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">listen</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">recognize_google</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s">"en-IN"</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">sr</span><span class="p">.</span><span class="n">UnknownValueError</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">'sorry, i didnt understand'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s">'what'</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">or</span> <span class="s">'which'</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">or</span> <span class="s">'who'</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">or</span> <span class="s">'when'</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">or</span> <span class="s">'explain'</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">or</span> <span class="s">'describe'</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">or</span> <span class="s">'define'</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                  <span class="k">try</span><span class="p">:</span>
+                    <span class="n">app_id</span> <span class="o">=</span> <span class="s">'7JKRXQ-AQW9YQJQJT'</span>
+                    <span class="n">client</span> <span class="o">=</span> <span class="n">wolframalpha</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">app_id</span><span class="p">)</span>
+                    <span class="n">res1</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">answer</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">res1</span><span class="p">.</span><span class="n">results</span><span class="p">).</span><span class="n">text</span>
+                    <span class="n">say</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="s">"None"</span><span class="p">:</span>
+                        <span class="n">say</span><span class="p">(</span><span class="n">wikipedia</span><span class="p">.</span><span class="n">summary</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sentences</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+                  <span class="k">except</span> <span class="nb">StopIteration</span><span class="p">:</span>
+                        <span class="n">say</span><span class="p">(</span><span class="n">wikipedia</span><span class="p">.</span><span class="n">summary</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sentences</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+                  <span class="k">except</span> <span class="nb">AssertionError</span><span class="p">:</span>
+                        <span class="n">say</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">assistant</span><span class="p">.</span><span class="n">request</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+</code></pre></div></div>
+<p>To provide greetings to the user whenever he run the program</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">hour</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">().</span><span class="n">hour</span>
+<span class="k">if</span><span class="p">(</span><span class="n">hour</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">hour</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">):</span>
+    <span class="n">say</span><span class="p">(</span><span class="sa">f</span><span class="s">"Good Morning </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">elif</span><span class="p">(</span><span class="n">hour</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">hour</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">):</span>
+    <span class="n">say</span><span class="p">(</span><span class="sa">f</span><span class="s">"Good afternoon </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">elif</span><span class="p">(</span><span class="n">hour</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">hour</span> <span class="o">&lt;</span> <span class="mi">21</span><span class="p">):</span>
+    <span class="n">say</span><span class="p">(</span><span class="sa">f</span><span class="s">"Good Evening </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="n">say</span><span class="p">(</span><span class="s">"how may i assist you"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>We make a weather functon to provide the user with weather information when required</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">weather</span><span class="p">():</span>
+    <span class="n">city</span> <span class="o">=</span> <span class="s">""</span><span class="c1">#Enter the name of your city
+</span>    <span class="n">city</span> <span class="o">=</span> <span class="n">city</span> <span class="o">+</span> <span class="s">" weather"</span>
+    <span class="n">city</span> <span class="o">=</span> <span class="n">city</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">" "</span><span class="p">,</span> <span class="s">"+"</span><span class="p">)</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'User-Agent'</span><span class="p">:</span> <span class="s">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'</span><span class="p">}</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s">'https://www.google.com/search?q=</span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s">&amp;oq=</span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s">'</span>
+                       <span class="sa">f</span><span class="s">'&amp;aqs=chrome.0.35i39l2j0l4j46j69i60.6128j1j7&amp;sourceid=chrome&amp;ie=UTF-8'</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Searching...</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="s">'html.parser'</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'#wob_loc'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="n">getText</span><span class="p">().</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'#wob_dc'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="n">getText</span><span class="p">().</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">weather1</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'#wob_tm'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="n">getText</span><span class="p">().</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">say</span><span class="p">(</span><span class="sa">f</span><span class="s">"location is </span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">say</span><span class="p">(</span><span class="sa">f</span><span class="s">"climate is </span><span class="si">{</span><span class="n">info</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">say</span><span class="p">(</span><span class="sa">f</span><span class="s">"temperature is </span><span class="si">{</span><span class="n">weather1</span><span class="si">}</span><span class="s">"</span><span class="o">+</span><span class="s">"°C"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>To provide news  we use <code class="language-plaintext highlighter-rouge">news api</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">today_news</span><span class="p">():</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://newsapi.org/v2/everything?'</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'q'</span><span class="p">:</span> <span class="s">'big data'</span><span class="p">,</span> <span class="c1"># query phrase
+</span>        <span class="s">'pageSize'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># maximum is 100
+</span>        <span class="s">'apiKey'</span><span class="p">:</span> <span class="s">""</span> <span class="c1"># sign up an account in https://newsapi.org and paste the api key here
+</span>    <span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+    <span class="n">response_json</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">response_json</span><span class="p">[</span><span class="s">'articles'</span><span class="p">]:</span>
+       <span class="n">say</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">'title'</span><span class="p">])</span>
+</code></pre></div></div>
+<p>To get the covid report of the day</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">covid</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://coronavirus-19-api.herokuapp.com/all"</span><span class="p">).</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">say</span><span class="p">(</span><span class="sa">f</span><span class="s">'Confirmed cases: </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s">"cases"</span><span class="p">]</span><span class="si">}</span><span class="s"> </span><span class="se">\n</span><span class="s">Deaths: </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s">"deaths"</span><span class="p">]</span><span class="si">}</span><span class="s"> </span><span class="se">\n</span><span class="s">Recovered: </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s">"recovered"</span><span class="p">]</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>To search on youtube we create another record function</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">record1</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">sr</span><span class="p">.</span><span class="n">Recognizer</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">sr</span><span class="p">.</span><span class="n">Microphone</span><span class="p">(</span><span class="n">device_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">as</span> <span class="n">source</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'I am listening!....'</span><span class="p">)</span>
+            <span class="n">r</span><span class="p">.</span><span class="n">adjust_for_ambient_noise</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">audio</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">listen</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">audio_string</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">recognize_google</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s">"en-IN"</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">audio_string</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">sr</span><span class="p">.</span><span class="n">UnknownValueError</span><span class="p">:</span>
+                <span class="n">say</span><span class="p">(</span><span class="s">'sorry, i didnt understand'</span><span class="p">)</span>
+            <span class="n">say</span><span class="p">(</span><span class="s">"what you want to search on YouTube?"</span><span class="p">)</span>
+            <span class="n">pywhatkit</span><span class="p">.</span><span class="n">playonyt</span><span class="p">(</span><span class="n">audio_string</span><span class="p">)</span>
+            <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Now the final part is to map the <code class="language-plaintext highlighter-rouge">fuctions</code> with the <code class="language-plaintext highlighter-rouge">tags</code> of <code class="language-plaintext highlighter-rouge">.json.</code> file</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+<span class="n">mappings</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"exit"</span><span class="p">:</span> <span class="n">stop</span><span class="p">,</span>
+    <span class="s">"email"</span><span class="p">:</span> <span class="n">sendemail</span><span class="p">,</span>
+    <span class="s">"climate"</span><span class="p">:</span> <span class="n">weather</span><span class="p">,</span>
+    <span class="s">"news"</span><span class="p">:</span> <span class="n">today_news</span><span class="p">,</span>
+    <span class="s">"now"</span><span class="p">:</span> <span class="n">time1</span><span class="p">,</span>
+    <span class="s">"today"</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span>
+    <span class="s">"google"</span><span class="p">:</span> <span class="n">search</span><span class="p">,</span>
+    <span class="s">"corona"</span><span class="p">:</span> <span class="n">covid</span><span class="p">,</span>
+    <span class="s">"comedy"</span><span class="p">:</span> <span class="n">joke</span><span class="p">,</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+<p>Now we load the machine learning model</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ssistant</span> <span class="o">=</span> <span class="n">GenericAssistant</span><span class="p">(</span><span class="s">'intents.json'</span><span class="p">,</span> <span class="n">intent_methods</span><span class="o">=</span><span class="n">mappings</span><span class="p">)</span>
+<span class="n">assistant</span><span class="p">.</span><span class="n">train_model</span><span class="p">()</span>
+<span class="n">assistant</span><span class="p">.</span><span class="n">save_model</span><span class="p">()</span>
+<span class="n">assistant</span><span class="p">.</span><span class="n">load_model</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Finally wel call the <code class="language-plaintext highlighter-rouge">record()</code> function in a while loop so it will keep repeat its recording</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">data1</span><span class="o">=</span><span class="n">record</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s">'search on YouTube'</span> <span class="ow">in</span> <span class="n">data1</span> <span class="ow">or</span> <span class="s">'YouTube'</span> <span class="ow">in</span> <span class="n">data1</span><span class="p">:</span><span class="c1">#we call the record1() function here
+</span>        <span class="n">record1</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Now you can run the program.</p>
+
+<p><strong>The full code of this program is available in my <a href="https://github.com/Charles-Shaju/Intelligent-Voice-Assistant.git">github page</a></strong></p>
+
+<h6 id="you-can-add-as-many-features-as-you-like-into-this-model-by-creating-the-right-functions-in-the-main-file-and-intents-in-the-json-file">You can add as many features as you like into this model by creating the right functions in the <code class="language-plaintext highlighter-rouge">main</code> file and intents in the <code class="language-plaintext highlighter-rouge">.json</code> file</h6>
+:ET
